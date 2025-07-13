@@ -1,0 +1,14 @@
+name: DevDraft Codegen
+description: AI-powered draft implementation generator
+
+inputs:
+  ticketId:
+    required: true
+  title:
+    required: true
+  description:
+    required: false
+
+runs:
+  using: "node16"
+  main: "index.js"
