@@ -34,7 +34,8 @@ yarn-error.log
 .pnpm-debug.log
 
 # Build output
-dist/
+dist/*
+!dist/index.js
 build/
 out/
 
