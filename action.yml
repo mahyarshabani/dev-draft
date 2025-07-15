@@ -1,14 +1,56 @@
 name: DevDraft Codegen
-description: AI-powered draft implementation generator
+description: AI-powered draft implementation generator using Gemini CLI
 
 inputs:
   ticketId:
+    description: 'The ticket identifier (e.g. JIRA-123) used for commit messages or traceability'
     required: true
-  title:
-    required: true
+
   description:
+    description: 'Detailed description or prompt for Gemini to generate code from'
     required: false
 
+  testPrompt:
+    description: 'Optional follow-up prompt to instruct Gemini how to validate or test the generated code'
+    required: false
+
+  issueType:
+    description: 'The type of issue (e.g. feature, bug, chore) — used in branch naming'
+    required: true
+    default: feature
+
+  issueSummary:
+    description: 'Kebab-case summary of the issue (e.g. add-logout-button) — used in branch naming'
+    required: true
+
 runs:
-  using: "node16"
-  main: "dist/index.js"
+  using: "composite"
+  steps:
+    - name: Install Gemini CLI
+      run: npm install -g @google/gemini-cli
+      shell: bash
+
+    - name: Compose Gemini prompt
+      run: |
+        echo "${{ inputs.description }}" > prompt.txt
+        if [ -n "${{ inputs.testPrompt }}" ]; then
+          echo -e "\n\nUse this prompt to test it:\n${{ inputs.testPrompt }}" >> prompt.txt
+        fi
+      shell: bash
+
+    - name: Run Gemini CLI
+      run: gemini --yolo --input-file prompt.txt
+      shell: bash
+      env:
+        GEMINI_API_KEY: ${{ env.GEMINI_API_KEY }}
+
+    - name: Commit and Push to Branch
+      run: |
+        BRANCH_NAME="dev-draft/${{ inputs.issueType }}/${{ inputs.issueSummary }}"
+        git config user.name "github-actions[bot]"
+        git config user.email "github-actions[bot]@users.noreply.github.com"
+        git checkout -b "$BRANCH_NAME"
+        git add .
+        git commit -m "💡 DevDraft: Implement ${{ inputs.issueSummary }} for ${{ inputs.ticketId }}"
+        git push origin "$BRANCH_NAME"
+      shell: bash
