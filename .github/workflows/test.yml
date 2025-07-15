@@ -19,6 +19,5 @@ jobs:
         with:
           ticketId: "JIRA-001"
           description: "We need a counter that start from 0 and increments by 1 every second. Implement using HTML, CSS, and JavaScript."
-          testPrompt: "write a test using jest to validate the counter increments correctly"
           issueType: "feature"
           issueSummary: "add-counter-component"
