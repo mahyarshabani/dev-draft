@@ -39,7 +39,7 @@ runs:
       shell: bash
 
     - name: Run Gemini CLI
-      run: gemini --yolo --input-file prompt.txt
+      run: gemini --yolo -p "$(cat prompt.txt)"
       shell: bash
       env:
         GEMINI_API_KEY: ${{ env.GEMINI_API_KEY }}
