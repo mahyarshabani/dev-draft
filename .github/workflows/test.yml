@@ -10,6 +10,7 @@ jobs:
 
     env:
       GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      GH_PAT: ${{ secrets.GH_PAT_FOR_COMMIT_PUSH }}
 
     steps:
       - uses: actions/checkout@v4
