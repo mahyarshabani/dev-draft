@@ -52,6 +52,7 @@ runs:
         git checkout -b "$BRANCH_NAME"
         git add .
         git commit -m "💡 DevDraft: Implement ${{ inputs.issueSummary }} for ${{ inputs.ticketId }}"
+        gh auth status
         git remote set-url origin https://x-access-token:${{ env.GH_PAT }}@github.com/${{ github.repository }}.git
         git push origin "$BRANCH_NAME"
       shell: bash
