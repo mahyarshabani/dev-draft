@@ -26,12 +26,14 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Install Gemini CLI
-      run: npm install -g @google/gemini-cli
-      shell: bash
+# It is already installed in self-hosted runners, so we can skip this step.
+#    - name: Install Gemini CLI
+#      run: npm install -g @google/gemini-cli
+#      shell: bash
 
     - name: Compose Gemini prompt
       run: |
+        gemini --version
         echo "${{ inputs.description }}" > prompt.txt
         if [ -n "${{ inputs.testPrompt }}" ]; then
           echo -e "\n\nUse this prompt to test it:\n${{ inputs.testPrompt }}" >> prompt.txt
