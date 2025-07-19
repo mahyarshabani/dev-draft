@@ -41,7 +41,7 @@ runs:
       shell: bash
 
     - name: Run Gemini CLI
-      run: gemini --yolo -p "$(cat prompt.txt)"
+      run: gemini --model gemini-2.5-flash-lite-preview-06-17 --yolo -p "$(cat prompt.txt)"
       shell: bash
       env:
         GEMINI_API_KEY: ${{ env.GEMINI_API_KEY }}
