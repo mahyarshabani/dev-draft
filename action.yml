@@ -1,5 +1,5 @@
 name: DevDraft Codegen
-description: AI-powered draft implementation generator using Gemini CLI
+description: AI-powered draft implementation generator using Gemini CLI. It is designed for npm projects and use "npm run build" to build the project before committing changes. This action should be run on a self-hosted runner with the Gemini CLI installed and configured and npm available.
 
 inputs:
   ticketId:
@@ -26,9 +26,10 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Install Gemini CLI
-      run: npm install -g @google/gemini-cli
-      shell: bash
+# Should be installed on the self-hosted runner before running this action.
+#    - name: Install Gemini CLI
+#      run: npm install -g @google/gemini-cli
+#      shell: bash
 
     - name: Compose Gemini prompt new
       run: |
@@ -46,7 +47,8 @@ runs:
         GEMINI_API_KEY: ${{ env.GEMINI_API_KEY }}
 
     - name: Commit and Push to Branch
-      run: |
+      # TODO: created branch name should use REPOSITORY_NAME instead of hardcoded "dev-draft"
+      run: | 
         BRANCH_NAME="dev-draft/${{ inputs.issueType }}/${{ inputs.issueSummary }}"
         git config user.name "github-actions[bot]"
         git config user.email "github-actions[bot]@users.noreply.github.com"
