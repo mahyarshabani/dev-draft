@@ -26,10 +26,9 @@ inputs:
 runs:
   using: "composite"
   steps:
-# It is already installed in self-hosted runners, so we can skip this step.
-#    - name: Install Gemini CLI
-#      run: npm install -g @google/gemini-cli
-#      shell: bash
+    - name: Install Gemini CLI
+      run: npm install -g @google/gemini-cli
+      shell: bash
 
     - name: Compose Gemini prompt new
       run: |
